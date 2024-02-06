@@ -1,6 +1,17 @@
+:root {
+    --primary-color: #4A90E2;
+    --primary-hover-color: #357EC7;
+    --secondary-color: #F4F4F4;
+    --background-gradient-start: #FFFFFF; 
+    --background-gradient-end: #4A90E2;
+    --text-color: #333333;
+    --dark-gray: #333; 
+}
+
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f3f3f3;
+    background: linear-gradient(315deg, var(--background-gradient-start) 0%, var(--background-gradient-end) 74%);
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,34 +21,34 @@ body {
 }
 
 .quote-box {
-    background-color: #fff;
+    background-color: var(--secondary-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 2rem;
     text-align: center;
     width: 90%;
     max-width: 600px;
-    display: flex; /* Added */
-    flex-direction: column; /* Added */
-    align-items: center; /* Added */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .headingBox {
-    display: flex; /* Added */
-    justify-content: space-between; /* Added */
-    width: 100%; /* Added */
-    margin-bottom: 1.5rem; /* Added */
+    display: flex; 
+    justify-content: space-around; 
+    width: 100%;
+    margin-bottom: 1.5rem;
 }
 
 h2 {
-    color: #333;
-    font-size: 1.5rem;
-    margin: 0; /* Updated */
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin: 0;
 }
 
 blockquote {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--text-color);
     margin-bottom: 1.5rem;
 }
 blockquote::before, blockquote::after{
@@ -51,23 +62,24 @@ blockquote::before, blockquote::after{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: #fff;
     font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
 .author-options button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover-color);
 }
 
 .score, .lives {
     font-size: 1rem;
-    color: #333;
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 .game-over {
-    display: none; /* Initially hide */
+    display: none;
     margin-top: 20px;
     text-align: center;
 }
@@ -79,7 +91,7 @@ blockquote::before, blockquote::after{
 
 #restart-button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -89,5 +101,22 @@ blockquote::before, blockquote::after{
 }
 
 #restart-button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover-color);
+}
+
+#credentials {
+    font-size: 0.8rem;
+    color: var(--dark-gray);
+    text-align: center;
+    margin-top: 20px;
+}
+
+#credentials a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#credentials a:hover {
+    color: var(--primary-hover-color);
 }
