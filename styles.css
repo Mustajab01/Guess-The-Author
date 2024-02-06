@@ -120,3 +120,11 @@ blockquote::before, blockquote::after{
 #credentials a:hover {
     color: var(--primary-hover-color);
 }
+
+/* Responsive Styles */
+@media only screen and (max-width: 750px) {
+    .quote-box {
+        transform: scale(0.9);
+        transition: all 0.3s ease;
+    }
+}
