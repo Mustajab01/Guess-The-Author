@@ -3,6 +3,7 @@ const maxOptions = 4; // Maximum number of author options
 let score = 0; // Initial user score
 let roundsPlayed = 0; // To keep of rounds. The game will end after 10 rounds
 let lives = 3; // The user has 3 chances of incorrect guesses.
+let gameActive = true; // Track the game state
 
 // Function to fetch a new quote and author options
 async function getQuoteAndAuthors(url) {
@@ -98,6 +99,8 @@ function updateLivesDisplay() {
 
 // Function to end the game
 function endGame() {
+    gameActive = false; // Set gameActive to false when the game ends
+
     const finalScore = score + "/" + 10;
     const gameOverSection = document.getElementById("game-over");
     const finalScoreElement = document.getElementById("final-score");
@@ -114,6 +117,8 @@ function endGame() {
 
 // Function to restart the game
 function restartGame() {
+    gameActive = true; // Set gameActive to true when the game restarts
+
     // Reset scores and lives
     score = 0;
     roundsPlayed = 0;
@@ -140,4 +145,32 @@ function shuffleArray(array) {
 // Initial call to fetch a quote and authors when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     getQuoteAndAuthors(api_url);
+});
+
+/** This Funtion is for a cheat to increase lives. 
+ * I realize the game is hard so you can increase you lives by double clicking on 'Lives'.  */
+let clicks = 0;
+let lastClickTime = 0;
+const doubleClickThreshold = 300; // Time threshold for double click in milliseconds
+// Function to track double clicks on the lives element
+document.querySelector('.lives').addEventListener('click', function() {
+    if (gameActive) {
+        const now = new Date().getTime();
+        if (now - lastClickTime < doubleClickThreshold) {
+            // Double click detected
+            clicks++;
+            if (clicks === 2) {
+                // Increment lives count
+                if (lives < 3) {
+                    lives++;
+                    updateLivesDisplay();
+                }
+                clicks = 0; // Reset click count
+            }
+        } else {
+            // Single click
+            clicks = 1;
+        }
+        lastClickTime = now;
+    }
 });
