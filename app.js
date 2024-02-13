@@ -23,7 +23,8 @@ async function getQuoteAndAuthors(url) {
 // Function to fetch random authors except the correct one
 async function fetchRandomAuthors(excludeAuthor) {
     try {
-        const response = await fetch(`${api_url}/authors?limit=${maxOptions}`);
+        const randomPage = Math.floor(Math.random() * 200) + 1; // Generate random page number between 1 and 800 
+        const response = await fetch(`${api_url}/authors?limit=${maxOptions}&page=${randomPage}`);
         const data = await response.json();
         let authors = data.results.map(author => author.name);
         authors = authors.filter(author => author !== excludeAuthor);
