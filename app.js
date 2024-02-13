@@ -24,13 +24,40 @@ async function getQuoteAndAuthors(url) {
 // Function to fetch random authors except the correct one
 async function fetchRandomAuthors(excludeAuthor) {
     try {
-        const randomPage = Math.floor(Math.random() * 200) + 1; // Generate random page number between 1 and 800 
-        const response = await fetch(`${api_url}/authors?limit=${maxOptions}&page=${randomPage}`);
-        const data = await response.json();
-        let authors = data.results.map(author => author.name);
-        authors = authors.filter(author => author !== excludeAuthor);
-        shuffleArray(authors);
-        return authors.slice(0, maxOptions - 1); // Return only maxOptions - 1 random authors
+        // Generate an array of random page numbers without duplicates
+        const randomPages = Array.from({ length: maxOptions - 1 }, () => Math.floor(Math.random() * 200) + 1);
+        const uniqueRandomPages = Array.from(new Set(randomPages)); // Remove duplicates
+
+        // Fetch author data from each random page asynchronously
+        const promises = uniqueRandomPages.map(async (page) => {
+            const response = await fetch(`${api_url}/authors?limit=${maxOptions}&page=${page}`);
+            const data = await response.json();
+            return data.results.map(author => author.name);
+        });
+
+        // Wait for all promises to resolve and collect the author arrays
+        const authorsArrays = await Promise.all(promises);
+
+        // Flatten the arrays and filter out the excluded author
+        let authors = authorsArrays.flat().filter(author => author !== excludeAuthor);
+
+        // Filter out authors with duplicate initial letters
+        let uniqueAuthors = [];
+        let initialLetters = new Set();
+
+        for (let author of authors) {
+            const initialLetter = author.charAt(0).toLowerCase();
+            if (!initialLetters.has(initialLetter)) {
+                uniqueAuthors.push(author);
+                initialLetters.add(initialLetter);
+            }
+        }
+
+        // Shuffle the authors array
+        shuffleArray(uniqueAuthors);
+
+        // Return only maxOptions - 1 random authors
+        return uniqueAuthors.slice(0, maxOptions - 1);
     } catch (error) {
         console.error("Error fetching random authors:", error);
     }
