@@ -77,6 +77,19 @@ blockquote::before, blockquote::after{
     color: var(--primary-color);
     font-weight: 600;
 }
+.lives {
+    user-select: none; /* Disable text selection */
+    cursor: pointer;
+    height: fit-content;
+}
+
+.lives:hover {
+    outline: 1px dashed;
+}
+
+.lives::selection {
+    background-color: transparent;
+}
 
 .game-over {
     display: none;
